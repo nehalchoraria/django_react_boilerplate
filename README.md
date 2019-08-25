@@ -79,47 +79,69 @@ urlpatterns = [
 ### PACKAGE.JSON
 
 "scripts": {
+
 "start": "react-scripts start",
+
 "build": "react-scripts build",
+
 "test": "react-scripts test",
+
 "eject": "react-scripts eject",
+
 "postinstall": "npm run build"
+
 },
+
 "engines": {
+
 "node":"12.4.0",
+
 "npm":"6.9.0"
+
 }
 
 
 ** USE npm -v and node -v to find out your versions ***
 
 ### PROCFILE 
+
 release: python manage.py migrate
+
 web: gunicorn reactdjango.wsgi --log-file -
+
 *** PROCFILE SHOULD START WITH CAPITAL P. ***
-requirements.txt
+
+### requirements.txt
 
 django>=2.1.2
 gunicorn==19.7.1
 whitenoise==3.3.1
 
-
 ***Use command - Pip freeze > requirements.txt ***
 
-runtime.txt
+### runtime.txt
+
 python-3.6.8
 
 
 ### HEROKU SETUP
 
 git init
+
 heroku git:remote -a heroku-app-name
+
 heroku buildpacks:set heroku/python
+
 heroku buildpacks:add --index 1 heroku/nodejs
+
 npm i
+
 npm run build
+
 git add .
+
 git commit -am "make it better"
+
 git push heroku master
 
 
