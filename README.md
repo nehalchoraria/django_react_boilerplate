@@ -40,25 +40,40 @@ TEMPLATES = [
 ]
 
 STATICFILES_DIRS = [
+
     os.path.join(BASE_DIR, 'build/static'),
+    
 ]
+
 MIDDLEWARE = [
-  # 'django.middleware.security.SecurityMiddleware',
+
+  'django.middleware.security.SecurityMiddleware',
   'whitenoise.middleware.WhiteNoiseMiddleware',
+  
   # ...
+  
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 ALLOWED_HOSTS = ['xyz.herokuapp.com', '127.0.0.1:8000']
-URLS.PY
+
+### URLS.PY
+
 from django.contrib import admin
+
 from django.urls import path, re_path
+
 from django.views.generic import TemplateView
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
+    
     # path('api/', include('mynewapp.urls')),
+    
     re_path('.*', TemplateView.as_view(template_name='index.html')),
+    
 ]
 
 ### PACKAGE.JSON
