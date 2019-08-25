@@ -1,68 +1,110 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### DJANGO 
 
-## Available Scripts
+ 
+    • Create a virtual environment for the project using virutalenv env. 
+    • Source env/bin/activate 
+    • Install Django with pip install django. 
+    • Start a django project by running django-admin startproject djangoReact. 
+    • Change directory to the project root and create a new app with django-admin startapp polls. 
+    • Add mynewapp to installed apps in settings.py. 
+    • Run app with python manage.py runserver.
 
-In the project directory, you can run:
+### REACT
 
-### `npm start`
+    • Run npm install -g create-react-app. 
+    • Create a new app with create-react-app reactapp. 
+    • Copy/cut all the contents of the React app (in name-of-project folder) and paste in the root of the Django project.** 
+    • Run app with npm start from the project root.
+    • Run npm run build 
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### SETTINGS.PY
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-### `npm test`
+TEMPLATES = [
+    {
+        # ...
+        'DIRS': [
+            os.path.join(BASE_DIR, 'build')
+        ],
+        # ...
+    }
+]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static'),
+]
+MIDDLEWARE = [
+  # 'django.middleware.security.SecurityMiddleware',
+  'whitenoise.middleware.WhiteNoiseMiddleware',
+  # ...
+]
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+ALLOWED_HOSTS = ['xyz.herokuapp.com', '127.0.0.1:8000']
+URLS.PY
+from django.contrib import admin
+from django.urls import path, re_path
+from django.views.generic import TemplateView
 
-### `npm run build`
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # path('api/', include('mynewapp.urls')),
+    re_path('.*', TemplateView.as_view(template_name='index.html')),
+]
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### PACKAGE.JSON
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+"scripts": {
+"start": "react-scripts start",
+"build": "react-scripts build",
+"test": "react-scripts test",
+"eject": "react-scripts eject",
+"postinstall": "npm run build"
+},
+"engines": {
+"node":"12.4.0",
+"npm":"6.9.0"
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+** USE npm -v and node -v to find out your versions ***
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### PROCFILE 
+release: python manage.py migrate
+web: gunicorn reactdjango.wsgi --log-file -
+*** PROCFILE SHOULD START WITH CAPITAL P. ***
+requirements.txt
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+django>=2.1.2
+gunicorn==19.7.1
+whitenoise==3.3.1
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+***Use command - Pip freeze > requirements.txt ***
 
-## Learn More
+runtime.txt
+python-3.6.8
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### HEROKU SETUP
 
-### Code Splitting
+git init
+heroku git:remote -a heroku-app-name
+heroku buildpacks:set heroku/python
+heroku buildpacks:add --index 1 heroku/nodejs
+npm i
+npm run build
+git add .
+git commit -am "make it better"
+git push heroku master
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
